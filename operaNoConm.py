@@ -16,8 +16,8 @@ def sumarUno():
         lock.acquire()
         var+=1
     finally:
-        lock.release()
-
+        #lock.release()
+        pass
 
 
 def multiplicarPorDos():
