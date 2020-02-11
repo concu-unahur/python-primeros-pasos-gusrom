@@ -7,16 +7,15 @@ logging.basicConfig(format='%(asctime)s.%(msecs)03d [%(threadName)s] - %(message
 
 
 var=10
-lock=threading.Lock()#los threads se esperan entre si,se sincronizan
+sema=threading.Semaphore(0)#los threads se esperan entre si,se sincronizan
 
 def sumarUno():
     global var
-    global lock
     try:
         
         var+=1
     finally:
-        lock.release()
+        sema.release()
         #pass
 
 
@@ -24,17 +23,17 @@ def multiplicarPorDos():
     global var
     global lock
     try:
-        lock.acquire()
+        sema.acquire()
         var*=2
     finally:
-        lock.release()
+        sema.release()
 
     
 
 t1=threading.Thread(target=sumarUno)
 t2=threading.Thread(target=multiplicarPorDos)
 
-lock.acquire()
+sema.acquire()
 t1.start()
 #t1.join()
 t2.start()
